@@ -1,0 +1,27 @@
+/*
+创建用户表 (alimoney_user)
+
+*/
+DROP TABLE IF EXISTS alimoney_user; 
+CREATE TABLE alimoney_user(
+user_id int primary key auto_increment comment '主键,自增id',
+user_account varchar(20) not null unique comment '用户名',
+user_password varchar(20) not null comment '密码',
+user_createtime timestamp not null default current_timestamp comment '创建时间',
+user_last_logintime datetime comment '最后登陆时间',
+user_status int default 0 comment '状态 0:禁用 1:启用'
+)ENGINE=INNODB CHARSET=UTF8;
+
+--插入数据
+INSERT INTO alimoney_user(user_account,user_password,user_createtime,user_last_logintime,user_status)
+VALUES('admins','admins',current_timestamp,null,1);
+
+--分页查询生活费
+SELECT *
+FROM pers_alimoney 
+ORDER BY alimoney_createtime DESC
+LIMIT 0,10;
+
+--查询生活费数据条数
+SELECT COUNT(*) 
+FROM pers_alimoney;

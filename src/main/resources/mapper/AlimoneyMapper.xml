@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper用于映射dao的接口，namespace指定Dao接口的完整类名 -->
+<mapper namespace="edu.myalimoney.dao.IAlimoneyDao">
+
+    <!-- 用户映射 -->
+    <resultMap id="alimoneyMap" type="alimoney">
+        <id column="alimoney_no" property="alimoney_no"/>
+        <result column="alimoney_title" property="alimoney_title"/>
+        <result column="alimoney_info" property="alimoney_info"/>
+        <result column="alimoney_money" property="alimoney_money"/>
+        <result column="alimoney_createtime" property="alimoney_createtime"/>
+        <result column="alimoney_status" property="alimoney_status"/>
+    </resultMap>
+
+    <!-- 分页查询 -->
+    <select id="findAlimoneyPage" parameterType="java.util.Map" resultMap="alimoneyMap">
+        SELECT *
+        FROM pers_alimoney
+        ORDER BY alimoney_createtime DESC
+        LIMIT #{page.start},#{page.pageSize}
+    </select>
+
+    <!-- 查询生活费数据条数 -->
+    <select id="findAlimoneyPageCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM pers_alimoney
+    </select>
+
+    <!-- 新增生活费信息 -->
+    <insert id="insert">
+        INSERT INTO pers_alimoney(alimoney_title,alimoney_info,alimoney_money,alimoney_createtime,alimoney_status)
+        VALUES(#{alimoney_title},#{alimoney_info},#{alimoney_money},#{alimoney_createtime},#{alimoney_status})
+    </insert>
+
+    <!-- 根据id删除生活费信息 -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM pers_alimoney
+        WHERE alimoney_no=#{alimoney_no}
+    </delete>
+
+</mapper>
